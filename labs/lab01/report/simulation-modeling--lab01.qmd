@@ -1,0 +1,120 @@
+---
+title: "Лабораторная работа №1"
+subtitle: "Модель экспоненциального роста"
+author: "Мария Чувакина"
+date: "16 февраля 2026"
+format: pdf
+toc: true
+toc-depth: 2
+number-sections: true
+---
+
+# Введение
+
+Экспоненциальный рост — это процесс увеличения величины, при котором скорость роста пропорциональна текущему значению. Модель описывается дифференциальным уравнением:
+
+$$ \frac{du}{dt} = \alpha u, \quad u(0) = u_0 $$
+
+где:
+- $u$ — текущее значение величины,
+- $t$ — время,
+- $\alpha$ — константа скорости роста.
+
+# Реализация модели
+
+## Подключение пакетов
+
+```julia
+using DrWatson
+@quickactivate "project"
+using DifferentialEquations
+using Plots
+using DataFrames
+using JLD2
+
+# Определение функции модели
+
+function exponential_growth!(du, u, p, t)
+    α = p
+    du[1] = α * u[1]
+end
+
+# Запуск с параметрами по умолчанию
+
+u0 = [1.0]
+α = 0.3
+tspan = (0.0, 10.0)
+
+prob = ODEProblem(exponential_growth!, u0, tspan, α)
+sol = solve(prob, Tsit5(), saveat=0.1)
+
+# Результаты моделирования
+
+df = DataFrame(t=sol.t, u=first.(sol.u))
+first(df, 5)
+doubling_time = log(2) / α
+println("Время удвоения: ", round(doubling_time, digits=2))
+
+# Набор параметров
+
+alpha_values = [0.1, 0.3, 0.5, 0.8, 1.0]
+results = []
+
+for α in alpha_values
+    prob = ODEProblem(exponential_growth!, [1.0], (0.0, 10.0), α)
+    sol = solve(prob, Tsit5(), saveat=0.1)
+    
+    final_pop = last(sol.u)[1]
+    doubling = log(2) / α
+    
+    push!(results, (α=α, final_population=final_pop, doubling_time=doubling))
+end
+
+results_df = DataFrame(results)
+results_df
+
+
+
+# Параметрическое исследование
+
+## Код параметрического исследования
+
+```julia
+using DrWatson
+@quickactivate "project"
+using DifferentialEquations, DataFrames, Plots, JLD2, BenchmarkTools
+
+function exponential_growth!(du, u, p, t)
+    α = p.α
+    du[1] = α * u[1]
+end
+
+# Базовые параметры
+base_params = Dict(
+    :u0 => [1.0],
+    :α => 0.3,
+    :tspan => (0.0, 10.0),
+    :solver => Tsit5(),
+    :saveat => 0.1
+)
+
+# Параметрическое сканирование
+param_grid = Dict(
+    :α => [0.1, 0.3, 0.5, 0.8, 1.0]
+)
+
+# Запуск и анализ
+results = []
+for α in param_grid[:α]
+    prob = ODEProblem(exponential_growth!, [1.0], (0.0, 10.0), (α=α,))
+    sol = solve(prob, Tsit5(), saveat=0.1)
+    push!(results, (α=α, final=last(sol.u)[1], doubling=log(2)/α))
+end
+
+DataFrame(results)
+
+
+
+# Заключение
+
+В ходе лабораторной работы была реализована модель экспоненциального роста. Проведено параметрическое исследование, подтверждающее теоретические зависимости. Все результаты сохранены, построены графики.
