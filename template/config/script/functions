@@ -30,7 +30,11 @@ function lab() {
 		mkdir -p labs/lab"${i}"
 		cp -R template/report/report labs/lab"${i}"
 		cp -R template/presentation/presentation labs/lab"${i}"
+<<<<<<< HEAD
 		find labs/lab"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}--lab"${i}"--$(basename "$0")"' "{}" \;
+=======
+		find labs/lab"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}-lab"${i}"-$(basename "$0")"' "{}" \;
+>>>>>>> dffd6f391ab02b710b3cd04671e2b40d8802539d
 	done
 	echo "# Laboratory works" >labs/README.md
 	echo "# Лабораторные работы" >labs/README.ru.md
@@ -44,7 +48,11 @@ function project_group() {
 		mkdir -p project-group/stage"${i}"
 		cp -R template/report/report project-group/stage"${i}"
 		cp -R template/presentation/presentation project-group/stage"${i}"
+<<<<<<< HEAD
 		find project-group/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}--project-group--stage"${i}"--$(basename "$0")"' "{}" \;
+=======
+		find project-group/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}-project-group-stage"${i}"-$(basename "$0")"' "{}" \;
+>>>>>>> dffd6f391ab02b710b3cd04671e2b40d8802539d
 	done
 	echo "# Team project" >project-group/README.md
 	echo "# Групповой проект" >project-group/README.ru.md
@@ -58,7 +66,11 @@ function project_personal() {
 		mkdir -p project-personal/stage"${i}"
 		cp -R template/report/report project-personal/stage"${i}"
 		cp -R template/presentation/presentation project-personal/stage"${i}"
+<<<<<<< HEAD
 		find project-personal/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}--project-personal--stage"${i}"--$(basename "$0")"' "{}" \;
+=======
+		find project-personal/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}-project-personal-stage"${i}"-$(basename "$0")"' "{}" \;
+>>>>>>> dffd6f391ab02b710b3cd04671e2b40d8802539d
 	done
 	echo "# Individual project" >project-personal/README.md
 	echo "# Индивидуальный проект" >project-personal/README.ru.md
@@ -72,7 +84,11 @@ function external_course() {
 		mkdir -p external-course/stage"${i}"
 		cp -R template/report/report external-course/stage"${i}"
 		cp -R template/presentation/presentation external-course/stage"${i}"
+<<<<<<< HEAD
 		find external-course/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}--external-course--stage"${i}"--$(basename "$0")"' "{}" \;
+=======
+		find external-course/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}-external-course-stage"${i}"-$(basename "$0")"' "{}" \;
+>>>>>>> dffd6f391ab02b710b3cd04671e2b40d8802539d
 	done
 	echo "# External Course" >external-course/README.md
 	echo "# Внешний курс" >external-course/README.ru.md
@@ -86,13 +102,21 @@ function presentation() {
 		mkdir -p presentation
 		cp -R template/report/report presentation
 		cp -R template/presentation/presentation presentation
+<<<<<<< HEAD
 		find presentation -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}--presentation--$(basename "$0")"' "{}" \;
+=======
+		find presentation -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}-presentation-$(basename "$0")"' "{}" \;
+>>>>>>> dffd6f391ab02b710b3cd04671e2b40d8802539d
 	else
 		for i in $(seq -f "%02g" 1 ${number}); do
 			mkdir -p presentation/stage"${i}"
 			cp -R template/report/report presentation/stage"${i}"
 			cp -R template/presentation/presentation presentation/stage"${i}"
+<<<<<<< HEAD
 			find presentation/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}--presentation--stage"${i}"--$(basename "$0")"' "{}" \;
+=======
+			find presentation/stage"${i}" -iname "*.qmd" -exec bash -c 'mv "$0" "$(dirname "$0")/${COURSE}-presentation-stage"${i}"-$(basename "$0")"' "{}" \;
+>>>>>>> dffd6f391ab02b710b3cd04671e2b40d8802539d
 		done
 	fi
 	echo "# Individual presentation" >presentation/README.md

@@ -1,0 +1,131 @@
+# Параметрическое исследование модели SIR
+
+**Цель:** Исследовать влияние параметров β, c и γ на динамику эпидемии.
+
+```{julia}
+using DrWatson
+@quickactivate "project"
+
+using DifferentialEquations
+using DataFrames
+using StatsPlots
+using LaTeXStrings
+using Plots
+using JLD2
+
+script_name = splitext(basename(PROGRAM_FILE))[1]
+mkpath(plotsdir(script_name))
+mkpath(datadir(script_name))
+```
+
+## Определение модели
+
+```{julia}
+function sir_ode!(du, u, p, t)
+    (S, I, R) = u
+    (β, c, γ) = p
+    N = S + I + R
+    du[1] = -β * c * I / N * S
+    du[2] = β * c * I / N * S - γ * I
+    du[3] = γ * I
+    nothing
+end
+```
+
+## Функция для запуска одного эксперимента
+
+```{julia}
+function run_experiment(params::Dict)
+    @unpack u0, β, c, γ, tspan = params
+    prob = ODEProblem(sir_ode!, u0, tspan, [β, c, γ])
+    sol = solve(prob, Tsit5(), saveat=0.5)
+
+    df = DataFrame(t=sol.t, S=[u[1] for u in sol.u],
+                          I=[u[2] for u in sol.u],
+                          R=[u[3] for u in sol.u])
+
+    peak_idx = argmax(df.I)
+    return Dict(
+        "solution" => sol,
+        "df" => df,
+        "peak_time" => df.t[peak_idx],
+        "peak_value" => df.I[peak_idx],
+        "final_R" => df.R[end]
+    )
+end
+```
+
+## Сетка параметров для исследования
+
+Базовые параметры
+
+```{julia}
+base_params = Dict(
+    :u0 => [990.0, 10.0, 0.0],
+    :tspan => (0.0, 40.0)
+)
+```
+
+Исследуем влияние β (вероятности заражения)
+
+```{julia}
+beta_values = [0.02, 0.05, 0.08, 0.12]
+c_fixed = 10.0
+γ_fixed = 0.25
+
+println("📊 Параметрическое исследование SIR")
+println("="^60)
+println("Исследуемые значения β: ", beta_values)
+
+results = []
+plots = []
+
+for β in beta_values
+    params = Dict(
+        :u0 => base_params[:u0],
+        :tspan => base_params[:tspan],
+        :β => β,
+        :c => c_fixed,
+        :γ => γ_fixed
+    )
+
+    result = run_experiment(params)
+    push!(results, (β=β, peak=result["peak_value"],
+                    peak_time=result["peak_time"],
+                    final_R=result["final_R"]))
+```
+
+Построение графика для текущего β
+
+```{julia}
+    plot(result["df"].t, result["df"].I,
+         label="β = $β", lw=2)
+end
+
+plt = plot(xlabel="Время, дни",
+           ylabel="Инфицированные I(t)",
+           title="Влияние β на динамику эпидемии",
+           legend=:topright,
+           grid=true)
+
+current()  # Сохраняем текущий график
+savefig(plotsdir(script_name, "beta_sensitivity.png"))
+```
+
+Вывод результатов
+
+```{julia}
+println("\nРезультаты:")
+for r in results
+    println("  β = $(r.β): пик = $(round(r.peak, digits=1)) " *
+            "на $(round(r.peak_time, digits=1)) день, " *
+            "всего переболело = $(round(r.final_R, digits=1))")
+end
+```
+
+Сохранение результатов
+
+```{julia}
+@save datadir(script_name, "results.jld2") results
+```
+

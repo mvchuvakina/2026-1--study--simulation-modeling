@@ -1,0 +1,24 @@
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{russian}
+\setotherlanguage{english}
+
+% Шрифты с поддержкой греческих букв
+\setmainfont{FreeSerif}
+\setsansfont{FreeSans}
+\setmonofont{FreeMono}
+
+% Для математических символов
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{unicode-math}
+\setmathfont{FreeSerif}
+
+% Biblatex должен быть ПОСЛЕ polyglossia
+\usepackage[
+    backend=biber,
+    style=gost-numeric,
+    language=auto,
+    autolang=other
+]{biblatex}
+\addbibresource{bib/cite.bib}
