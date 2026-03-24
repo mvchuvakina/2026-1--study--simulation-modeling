@@ -1,0 +1,153 @@
+# Базовый эксперимент с SIR моделью
+
+**Цель:** Запустить агентную SIR модель с параметрами по умолчанию
+и проанализировать динамику эпидемии.
+
+## 1. Инициализация проекта
+
+Подключаем необходимые пакеты и активируем окружение.
+
+```{julia}
+using DrWatson
+@quickactivate
+
+using Agents, DataFrames, Plots
+using JLD2
+```
+
+Подключаем модель
+
+```{julia}
+include(srcdir("sir_model.jl"))
+```
+
+## 2. Параметры эксперимента
+
+Определяем параметры модели:
+- **Ns** — численность населения в трёх городах (по 1000 человек)
+- **β_und** — вероятность заражения невыявленными (0.5)
+- **β_det** — вероятность заражения выявленными (0.05)
+- **infection_period** — длительность болезни (14 дней)
+- **detection_time** — время до выявления (7 дней)
+- **death_rate** — вероятность смерти (2%)
+- **reinfection_probability** — вероятность повторного заражения (10%)
+- **Is** — начальное количество инфицированных (только в городе 3)
+- **seed** — зерно случайности
+
+```{julia}
+params = Dict(
+    :Ns => [1000, 1000, 1000],
+    :β_und => [0.5, 0.5, 0.5],
+    :β_det => [0.05, 0.05, 0.05],
+    :infection_period => 14,
+    :detection_time => 7,
+    :death_rate => 0.02,
+    :reinfection_probability => 0.1,
+    :Is => [0, 0, 1],
+    :seed => 42,
+)
+```
+
+## 3. Расчёт базового репродуктивного числа
+
+Базовое репродуктивное число R₀ = β/γ, где γ = 1/infection_period
+
+- β = 0.5
+- γ = 1/14 ≈ 0.0714
+- R₀ = 0.5 / 0.0714 ≈ 7.0
+
+```{julia}
+γ = 1 / params[:infection_period]
+R₀ = params[:β_und][1] / γ
+println("Базовое репродуктивное число R₀ = ", round(R₀, digits=2))
+```
+
+## 4. Запуск симуляции
+
+```{julia}
+println("Инициализация модели...")
+model = initialize_sir(; params...)
+```
+
+Массивы для хранения данных
+
+```{julia}
+times = Int[]
+S_vals = Int[]
+I_vals = Int[]
+R_vals = Int[]
+total_vals = Int[]
+
+n_steps = 100
+println("Запуск симуляции на $n_steps шагов...")
+
+for step = 1:n_steps
+    Agents.step!(model, 1)
+
+    push!(times, step)
+    push!(S_vals, susceptible_count(model))
+    push!(I_vals, infected_count(model))
+    push!(R_vals, recovered_count(model))
+    push!(total_vals, total_count(model))
+
+    if step % 10 == 0
+        println("  Шаг $step: S=$(S_vals[end]), I=$(I_vals[end]), R=$(R_vals[end])")
+    end
+end
+```
+
+## 5. Сохранение данных
+
+```{julia}
+agent_df = DataFrame(time = times, susceptible = S_vals, infected = I_vals, recovered = R_vals)
+model_df = DataFrame(time = times, total = total_vals)
+
+println("\nСохранение данных...")
+@save datadir("sir_basic_agent.jld2") agent_df
+@save datadir("sir_basic_model.jld2") model_df
+```
+
+## 6. Визуализация результатов
+
+```{julia}
+println("Построение графика...")
+plot(agent_df.time, agent_df.susceptible,
+     label = "Восприимчивые (S)",
+     xlabel = "Дни",
+     ylabel = "Количество",
+     linewidth = 2,
+     color = :blue)
+plot!(agent_df.time, agent_df.infected,
+      label = "Инфицированные (I)",
+      linewidth = 2,
+      color = :red)
+plot!(agent_df.time, agent_df.recovered,
+      label = "Выздоровевшие (R)",
+      linewidth = 2,
+      color = :green)
+plot!(agent_df.time, model_df.total,
+      label = "Всего (включая умерших)",
+      linestyle = :dash,
+      linewidth = 2,
+      color = :black)
+
+title!("Модель SIR: Динамика эпидемии (R₀ = $(round(R₀, digits=2)))")
+savefig(plotsdir("sir_basic_dynamics.png"))
+```
+
+## 7. Анализ результатов
+
+```{julia}
+println("\n=== Анализ результатов ===")
+println("Пик заболеваемости: I_max = ", maximum(I_vals))
+println("Время достижения пика: ", argmax(I_vals), " дней")
+println("Итоговое число переболевших: R(∞) = ", R_vals[end])
+println("Доля переболевших: ", round(R_vals[end]/3000*100, digits=1), "%")
+println("Всего умерших: ", 3000 - total_vals[end])
+```
+
+**Выводы:**
+- При R₀ = $(round(R₀, digits=2)) эпидемия развивается очень быстро
+- Пик достигается на $(argmax(I_vals))-й день
+- Высокая заразность приводит к тому, что почти все восприимчивые заболевают
+
