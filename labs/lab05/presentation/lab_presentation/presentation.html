@@ -1,0 +1,281 @@
+<section class="slide level1">
+
+<h2 id="докладчик">Докладчик</h2>
+<div class="columns" data-align="center">
+<div class="column" style="width:70%;">
+<ul>
+<li>Чувакина Мария Владимировна</li>
+<li>студентка</li>
+<li>группа НКНбд-01-23</li>
+<li>Российский университет дружбы народов</li>
+<li><a href="mailto:1132236055@rudn.ru">1132236055@rudn.ru</a></li>
+<li><a href="https://github.com/mvchuvakina"
+class="uri">https://github.com/mvchuvakina</a></li>
+</ul>
+</div><div class="column" style="width:30%;">
+
+</div>
+</div>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>1. Цель работы</h1>
+<p>Изучить аппарат сетей Петри на примере классической задачи
+синхронизации «Обедающие философы» (Dining Philosophers), исследовать
+проблему взаимной блокировки (deadlock) и способы её предотвращения с
+использованием стохастического моделирования в Julia.</p>
+</section>
+<section id="задание" class="slide level1">
+<h1>2. Задание</h1>
+<ol type="1">
+<li>Создать рабочий каталог для кода.</li>
+<li>Установить необходимые пакеты.</li>
+<li>Реализовать модуль для построения сетей Петри.</li>
+<li>Построить классическую сеть Петри для задачи «Обедающие
+философы».</li>
+<li>Построить модифицированную сеть с арбитром для предотвращения
+deadlock.</li>
+<li>Провести стохастическое моделирование (алгоритм Гиллеспи) для обеих
+сетей.</li>
+<li>Выполнить анимацию процесса для наглядной демонстрации.</li>
+<li>Преобразовать код в литературный стиль.</li>
+<li>Сгенерировать производные форматы.</li>
+<li>Интегрировать документацию в формате Quarto в отчёт.</li>
+</ol>
+</section>
+<section id="этапы-выполнения" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="подготовка-рабочего-пространства">3.1. Подготовка рабочего
+пространства</h3>
+<ul>
+<li>Создан каталог <code>labs/lab05_petri</code></li>
+</ul>
+<figure id="fig:001">
+<img data-src="image/1.png" style="width:70.0%"
+alt="Созданный каталог" />
+<figcaption aria-hidden="true">Созданный каталог</figcaption>
+</figure>
+</section>
+<section id="этапы-выполнения-1" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="подготовка-рабочего-пространства-1">3.1. Подготовка рабочего
+пространства</h3>
+<ul>
+<li>Создан проект DrWatson в <code>labs/lab05_petri/project</code></li>
+</ul>
+<figure id="fig:002">
+<img data-src="image/2.png" style="width:70.0%"
+alt="Созданный проект DrWatson" />
+<figcaption aria-hidden="true">Созданный проект DrWatson</figcaption>
+</figure>
+</section>
+<section id="этапы-выполнения-2" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="подготовка-рабочего-пространства-2">3.1. Подготовка рабочего
+пространства</h3>
+<ul>
+<li>Установлены необходимые пакеты: <code>OrdinaryDiffEq.jl</code>,
+<code>Plots.jl</code>, <code>DataFrames.jl</code>, <code>CSV.jl</code>,
+<code>Random.jl</code>, <code>LinearAlgebra.jl</code>,
+<code>Literate.jl</code>, <code>DrWatson</code> и др.</li>
+</ul>
+<figure id="fig:003">
+<img data-src="image/3.png" style="width:70.0%"
+alt="Установка необходимых пакетов" />
+<figcaption aria-hidden="true">Установка необходимых
+пакетов</figcaption>
+</figure>
+<ul>
+<li>Проверена установка пакетов</li>
+</ul>
+</section>
+<section id="этапы-выполнения-3" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="реализация-модуля-diningphilosophers.jl">3.2. Реализация модуля
+DiningPhilosophers.jl</h3>
+<p>Создан файл <code>src/DiningPhilosophers.jl</code> с определением: -
+Структуры <code>PetriNet</code> - Функции
+<code>build_classical_network(N)</code> - Функции
+<code>build_arbiter_network(N)</code> - Функции
+<code>simulate_stochastic</code> (алгоритм Гиллеспи) - Функции
+<code>detect_deadlock</code> - Функции
+<code>plot_marking_evolution</code></p>
+</section>
+<section id="этапы-выполнения-4" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="базовые-скрипты">3.3. Базовые скрипты</h3>
+<p>Созданы и запущены скрипты:</p>
+<p><code>dining_philosophers.jl</code> - Базовый эксперимент
+<code>dining_philosophers_animation.jl</code> - Анимация процесса
+<code>dining_philosophers_report.jl</code> - Итоговый отчёт</p>
+</section>
+<section id="этапы-выполнения-5" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="параметрические-исследования">3.4. Параметрические
+исследования</h3>
+<ul>
+<li><strong>Влияние количества философов N</strong> (N = 2..10)</li>
+<li><strong>Влияние времени симуляции tmax</strong> (10, 20, 30, 40, 50,
+60, 80, 100)</li>
+</ul>
+</section>
+<section id="этапы-выполнения-6" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="литературное-программирование">3.5. Литературное
+программирование</h3>
+<p>Созданы литературные версии всех скриптов
+(<code>*_literate.jl</code>) с подробными Markdown-комментариями.</p>
+<p>С помощью <code>scripts/tangle.jl</code> сгенерированы: - Чистый код
+в папку <code>scripts/</code> - Jupyter notebooks в папку
+<code>notebooks/</code> - Quarto-документы в папку
+<code>markdown/</code></p>
+</section>
+<section id="этапы-выполнения-7" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h4 id="генерация-производных-форматов">3.5.1. Генерация производных
+форматов</h4>
+<p>Сгенерированы производные форматы для всех литературных скриптов</p>
+<figure id="fig:005">
+<img data-src="image/5.png" style="width:70.0%"
+alt="Генерация производных форматов" />
+<figcaption aria-hidden="true">Генерация производных
+форматов</figcaption>
+</figure>
+</section>
+<section id="этапы-выполнения-8" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="создание-отчёта">3.6. Создание отчёта</h3>
+<ul>
+<li>Создан файл <code>report.qmd</code> в папке
+<code>report/</code></li>
+<li>Добавлены все графики с подписями</li>
+<li>Скомпилированы report.pdf и report.docx</li>
+</ul>
+<figure id="fig:006">
+<img data-src="image/6.png" style="width:70.0%"
+alt="Компиляция отчёта" />
+<figcaption aria-hidden="true">Компиляция отчёта</figcaption>
+</figure>
+<h3 id="отправка-на-gitverse-и-github">3.7. Отправка на GitVerse и
+GitHub</h3>
+<ul>
+<li>Все изменения добавлены в Git</li>
+<li>Создан коммит:
+<code>feat(lab05): полное выполнение лабораторной работы №5</code></li>
+<li>Изменения отправлены на GitVerse и GitHub</li>
+</ul>
+</section>
+<section id="полученные-результаты" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="классическая-сеть-без-арбитра">4.1. Классическая сеть (без
+арбитра)</h3>
+<figure id="fig:classic">
+<img data-src="../../project/plots/classic_simulation.png"
+style="width:100.0%" alt="Классическая сеть Петри" />
+<figcaption aria-hidden="true">Классическая сеть Петри</figcaption>
+</figure>
+</section>
+<section id="полученные-результаты-1" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="сеть-с-арбитром">4.2. Сеть с арбитром</h3>
+<figure id="fig:arbiter">
+<img data-src="../../project/plots/arbiter_simulation.png"
+style="width:100.0%" alt="Сеть с арбитром" />
+<figcaption aria-hidden="true">Сеть с арбитром</figcaption>
+</figure>
+</section>
+<section id="полученные-результаты-2" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="анимация-процесса">4.3. Анимация процесса</h3>
+<figure id="fig:animation">
+<img data-src="../../project/plots/philosophers_simulation.gif"
+style="width:100.0%" alt="Анимация сети Петри" />
+<figcaption aria-hidden="true">Анимация сети Петри</figcaption>
+</figure>
+<p>Анимация наглядно показывает перемещение фишек между позициями.</p>
+</section>
+<section id="полученные-результаты-3" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="сравнительный-анализ">4.4. Сравнительный анализ</h3>
+<figure id="fig:comparison">
+<img data-src="../../project/plots/final_report.png"
+style="width:100.0%"
+alt="Сравнение классической сети и сети с арбитром" />
+<figcaption aria-hidden="true">Сравнение классической сети и сети с
+арбитром</figcaption>
+</figure>
+<p><strong>Результаты:</strong> - Классическая сеть: все Eat_i падают до
+нуля (deadlock) - Сеть с арбитром: Eat_i колеблются, deadlock
+отсутствует</p>
+</section>
+<section id="полученные-результаты-4" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="параметрическое-исследование">4.5. Параметрическое
+исследование</h3>
+<h4 id="влияние-количества-философов-n">Влияние количества философов
+N</h4>
+<figure id="fig:param_N">
+<img data-src="../../project/plots/parametric_N.png"
+style="width:100.0%" alt="Зависимость deadlock от N" />
+<figcaption aria-hidden="true">Зависимость deadlock от N</figcaption>
+</figure>
+<p><strong>Вывод:</strong> При N = 1 deadlock невозможен, при N ≥ 2
+возникает с вероятностью 1.</p>
+</section>
+<section id="полученные-результаты-5" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="параметрическое-исследование-1">4.5. Параметрическое
+исследование</h3>
+<h4 id="влияние-времени-симуляции-tmax">Влияние времени симуляции
+tmax</h4>
+<figure id="fig:param_tmax">
+<img data-src="../../project/plots/parametric_tmax.png"
+style="width:100.0%" alt="Зависимость вероятности deadlock от tmax" />
+<figcaption aria-hidden="true">Зависимость вероятности deadlock от
+tmax</figcaption>
+</figure>
+<p><strong>Вывод:</strong> С увеличением tmax вероятность deadlock
+стремится к 1. При tmax = 50 вероятность достигает 100%.</p>
+</section>
+<section id="выводы" class="slide level1">
+<h1>5. Выводы</h1>
+<p>В ходе выполнения лабораторной работы:</p>
+<ul>
+<li><p>Изучен аппарат сетей Петри — математический инструмент для
+моделирования дискретных систем.</p></li>
+<li><p>Реализован модуль <code>DiningPhilosophers.jl</code> для
+построения и анализа сетей Петри.</p></li>
+<li><p>Построена классическая сеть Петри для задачи «Обедающие
+философы», демонстрирующая проблему взаимной блокировки
+(deadlock).</p></li>
+<li><p>Построена модифицированная сеть с арбитром, предотвращающая
+deadlock.</p></li>
+</ul>
+</section>
+<section id="выводы-1" class="slide level1">
+<h1>5. Выводы</h1>
+<ul>
+<li><p>Проведено стохастическое моделирование (алгоритм Гиллеспи) для
+обеих сетей.</p></li>
+<li><p>Выполнена анимация процесса, наглядно показывающая перемещение
+фишек.</p></li>
+<li><p>Проведены параметрические исследования:</p>
+<ul>
+<li>Влияние количества философов N на deadlock</li>
+<li>Влияние времени симуляции tmax на вероятность deadlock</li>
+</ul></li>
+<li><p>Освоено литературное программирование с использованием
+Literate.jl.</p></li>
+</ul>
+</section>
+<section id="выводы-2" class="slide level1">
+<h1>5. Выводы</h1>
+<ul>
+<li><p>Сгенерированы производные форматы: чистый код, Jupyter notebooks,
+Quarto-документы.</p></li>
+<li><p>Подготовлен отчёт в форматах PDF и DOCX.</p></li>
+<li><p>Результаты отправлены на GitVerse.</p></li>
+</ul>
+<p>Работа позволила на практике освоить аппарат сетей Петри для
+моделирования параллельных процессов и закрепить навыки работы с языком
+Julia.</p>
+</section>
