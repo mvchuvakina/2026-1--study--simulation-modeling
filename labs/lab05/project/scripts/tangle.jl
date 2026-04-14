@@ -1,0 +1,59 @@
+#!/usr/bin/env julia
+# tangle.jl - Генератор отчетов из Literate-скриптов
+# Использование: julia tangle.jl <путь_к_скрипту>
+
+using DrWatson
+@quickactivate
+
+using Literate
+
+function main()
+    if length(ARGS) == 0
+        println("""
+        Использование: julia tangle.jl <путь_к_скрипту>
+        
+        Примеры:
+          julia tangle.jl scripts/dining_philosophers_literate.jl
+          julia tangle.jl scripts/dining_philosophers_param_literate.jl
+        """)
+        return
+    end
+    
+    script_path = ARGS[1]
+    
+    if !isfile(script_path)
+        error("Файл не найден: $script_path")
+    end
+    
+    script_dir = dirname(script_path)
+    script_name = splitext(basename(script_path))[1]
+    
+    println("Генерация из: $script_path")
+    
+    # Чистый скрипт (без комментариев)
+    scripts_dir = scriptsdir(script_name)
+    mkpath(scripts_dir)
+    Literate.script(script_path, scripts_dir; credit=false)
+    println("  ✓ Чистый скрипт: $(scripts_dir)/$(script_name).jl")
+    
+    # Quarto-документ
+    quarto_dir = projectdir("markdown", script_name)
+    mkpath(quarto_dir)
+    Literate.markdown(script_path, quarto_dir;
+        flavor = Literate.QuartoFlavor(),
+        name = script_name, credit=false)
+    println("  ✓ Quarto: $(quarto_dir)/$(script_name).qmd")
+    
+    # Jupyter notebook
+    notebooks_dir = projectdir("notebooks", script_name)
+    mkpath(notebooks_dir)
+    Literate.notebook(script_path, notebooks_dir, name=script_name;
+        execute = false, credit=false)
+    println("  ✓ Notebook: $(notebooks_dir)/$(script_name).ipynb")
+    
+    println("\nГотово!")
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+    main()
+end

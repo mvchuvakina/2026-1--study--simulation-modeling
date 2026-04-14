@@ -1,0 +1,25 @@
+using DrWatson
+@quickactivate
+
+using DataFrames, CSV, Plots
+
+df_classic = CSV.read(datadir("dining_classic.csv"), DataFrame)
+df_arbiter = CSV.read(datadir("dining_arbiter.csv"), DataFrame)
+N = 5
+
+eat_cols = [Symbol("Eat_$i") for i in 1:N]
+
+p1 = plot(df_classic.time, Matrix(df_classic[:, eat_cols]),
+          label=["Ф $i" for i in 1:N],
+          xlabel="Время", ylabel="Ест (1/0)",
+          title="Классическая сеть", linewidth=2)
+
+p2 = plot(df_arbiter.time, Matrix(df_arbiter[:, eat_cols]),
+          label=["Ф $i" for i in 1:N],
+          xlabel="Время", ylabel="Ест (1/0)",
+          title="Сеть с арбитром", linewidth=2)
+
+p_final = plot(p1, p2, layout=(2,1), size=(800, 600))
+savefig(plotsdir("final_report.png"))
+
+println("График сохранён: plots/final_report.png")
