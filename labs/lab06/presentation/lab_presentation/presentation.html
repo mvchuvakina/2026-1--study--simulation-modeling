@@ -1,0 +1,271 @@
+<section class="slide level1">
+
+<h2 id="докладчик">Докладчик</h2>
+<div class="columns" data-align="center">
+<div class="column" style="width:70%;">
+<ul>
+<li>Чувакина Мария Владимировна</li>
+<li>студентка</li>
+<li>группа НКНбд-01-23</li>
+<li>Российский университет дружбы народов</li>
+<li><a href="mailto:1132236055@rudn.ru">1132236055@rudn.ru</a></li>
+<li><a href="https://github.com/mvchuvakina"
+class="uri">https://github.com/mvchuvakina</a></li>
+</ul>
+</div><div class="column" style="width:30%;">
+
+</div>
+</div>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>1. Цель работы</h1>
+<p>Реализовать эпидемиологическую модель SIR с использованием аппарата
+сетей Петри, выполнить детерминированное и стохастическое
+моделирование.</p>
+</section>
+<section id="задание" class="slide level1">
+<h1>2. Задание</h1>
+<ol type="1">
+<li>Создать рабочий каталог для кода.</li>
+<li>Установить необходимые пакеты.</li>
+<li>Реализовать модуль для построения сетей Петри модели SIR.</li>
+<li>Построить сеть Петри для модели SIR.</li>
+<li>Провести детерминированное моделирование (решение ОДУ).</li>
+<li>Провести стохастическое моделирование (алгоритм Гиллеспи).</li>
+<li>Выполнить сканирование параметра β.</li>
+<li>Создать анимацию динамики эпидемии.</li>
+<li>Выполнить параметрическое исследование (β, γ).</li>
+<li>Преобразовать код в литературный стиль.</li>
+<li>Сгенерировать производные форматы.</li>
+</ol>
+</section>
+<section id="этапы-выполнения" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="подготовка-рабочего-пространства">3.1. Подготовка рабочего
+пространства</h3>
+<ul>
+<li>Создан каталог <code>labs/lab06</code></li>
+</ul>
+<figure id="fig:001">
+<img data-src="image/1.png" style="width:70.0%"
+alt="Созданный каталог" />
+<figcaption aria-hidden="true">Созданный каталог</figcaption>
+</figure>
+</section>
+<section id="этапы-выполнения-1" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="подготовка-рабочего-пространства-1">3.1. Подготовка рабочего
+пространства</h3>
+<ul>
+<li>Создан проект DrWatson в <code>labs/lab06/project</code></li>
+</ul>
+<figure id="fig:002">
+<img data-src="image/2.png" style="width:70.0%"
+alt="Созданный проект DrWatson" />
+<figcaption aria-hidden="true">Созданный проект DrWatson</figcaption>
+</figure>
+</section>
+<section id="этапы-выполнения-2" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="подготовка-рабочего-пространства-2">3.1. Подготовка рабочего
+пространства</h3>
+<ul>
+<li><p>Установлены необходимые пакеты: <code>OrdinaryDiffEq.jl</code>,
+<code>Plots.jl</code>, <code>DataFrames.jl</code>, <code>CSV.jl</code>,
+<code>Random.jl</code>, <code>LinearAlgebra.jl</code>,
+<code>Literate.jl</code>, <code>DrWatson</code> и др.</p></li>
+<li><p>Проверена установка пакетов</p></li>
+</ul>
+</section>
+<section id="этапы-выполнения-3" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="реализация-модуля-sirpetri.jl">3.2. Реализация модуля
+SIRPetri.jl</h3>
+<p>Создан файл <code>src/SIRPetri.jl</code> с определением: - Структуры
+<code>PetriNet</code> - Функции <code>build_sir_network(β, γ)</code> -
+Функции <code>simulate_deterministic</code> (решение ОДУ) - Функции
+<code>simulate_stochastic</code> (алгоритм Гиллеспи) - Функции
+<code>plot_sir</code> для визуализации</p>
+</section>
+<section id="этапы-выполнения-4" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="базовые-скрипты">3.3. Базовые скрипты</h3>
+<p>Созданы и запущены скрипты:</p>
+<p><code>dining_philosophers.jl</code> - Базовый эксперимент
+<code>dining_philosophers_animation.jl</code> - Анимация процесса
+<code>dining_philosophers_report.jl</code> - Итоговый отчёт</p>
+</section>
+<section id="этапы-выполнения-5" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="параметрические-исследования">3.4. Параметрические
+исследования</h3>
+<ul>
+<li><strong>Влияние параметра β</strong> (β = 0.1..0.8, γ = 0.1
+фиксирован)</li>
+<li><strong>Влияние параметров β и γ</strong> (β = 0.1..0.8, γ =
+0.05..0.2)</li>
+</ul>
+</section>
+<section id="этапы-выполнения-6" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="литературное-программирование">3.5. Литературное
+программирование</h3>
+<p>Созданы литературные версии всех скриптов
+(<code>*_literate.jl</code>) с подробными Markdown-комментариями.</p>
+<p>С помощью <code>scripts/tangle.jl</code> сгенерированы: - Чистый код
+в папку <code>scripts/</code> - Jupyter notebooks в папку
+<code>notebooks/</code> - Quarto-документы в папку
+<code>markdown/</code></p>
+</section>
+<section id="этапы-выполнения-7" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h4 id="генерация-производных-форматов">3.5.1. Генерация производных
+форматов</h4>
+<p>Сгенерированы производные форматы для всех литературных скриптов</p>
+</section>
+<section id="этапы-выполнения-8" class="slide level1">
+<h1>3. Этапы выполнения</h1>
+<h3 id="создание-отчёта">3.6. Создание отчёта</h3>
+<ul>
+<li>Создан файл <code>report.qmd</code> в папке
+<code>report/</code></li>
+<li>Добавлены все графики с подписями</li>
+<li>Скомпилированы report.pdf и report.docx</li>
+</ul>
+<h3 id="отправка-на-gitverse-и-github">3.7. Отправка на GitVerse и
+GitHub</h3>
+<ul>
+<li>Все изменения добавлены в Git</li>
+<li>Создан коммит:
+<code>feat(lab06): реализация модели SIR на сетях Петри</code></li>
+<li>Изменения отправлены на GitVerse и GitHub</li>
+</ul>
+</section>
+<section id="полученные-результаты" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="базовый-эксперимент">4.1. Базовый эксперимент</h3>
+<h4 id="детерминированная-динамика">Детерминированная динамика</h4>
+<figure id="fig:det">
+<img data-src="../../project/plots/sir_det_dynamics.png"
+style="width:100.0%" alt="Детерминированная динамика SIR" />
+<figcaption aria-hidden="true">Детерминированная динамика
+SIR</figcaption>
+</figure>
+<h4 id="стохастическая-динамика">Стохастическая динамика</h4>
+<figure id="fig:stoch">
+<img data-src="../../project/plots/sir_stoch_dynamics.png"
+style="width:100.0%" alt="Стохастическая динамика SIR" />
+<figcaption aria-hidden="true">Стохастическая динамика SIR</figcaption>
+</figure>
+</section>
+<section id="полученные-результаты-1" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="сканирование-параметра-β">4.2. Сканирование параметра β</h3>
+<figure id="fig:scan">
+<img data-src="../../project/plots/sir_scan.png" style="width:100.0%"
+alt="Сканирование параметра β" />
+<figcaption aria-hidden="true">Сканирование параметра β</figcaption>
+</figure>
+<p><strong>Анализ:</strong> При малых β эпидемия не возникает. С ростом
+β пик заболеваемости резко возрастает.</p>
+</section>
+<section id="полученные-результаты-2" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="сравнение-детерм.-и-стохаст.-динамики">4.3. Сравнение детерм. и
+стохаст. динамики</h3>
+<figure id="fig:comparison">
+<img data-src="../../project/plots/comparison.png" style="width:100.0%"
+alt="Сравнение динамик" />
+<figcaption aria-hidden="true">Сравнение динамик</figcaption>
+</figure>
+<p><strong>Анализ:</strong> Стохастическая кривая имеет флуктуации, но
+качественно совпадает с детерминированной.</p>
+</section>
+<section id="полученные-результаты-3" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="чувствительность-к-параметру-β">4.4. Чувствительность к
+параметру β</h3>
+<figure id="fig:sensitivity">
+<img data-src="../../project/plots/sensitivity.png" style="width:100.0%"
+alt="Чувствительность к β" />
+<figcaption aria-hidden="true">Чувствительность к β</figcaption>
+</figure>
+<p><strong>Анализ:</strong> Зависимость peak I(β) имеет пороговый
+характер.</p>
+</section>
+<section id="полученные-результаты-4" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="параметрическое-исследование">4.5. Параметрическое
+исследование</h3>
+<h4 id="тепловая-карта-пика-i">Тепловая карта пика I</h4>
+<figure id="fig:heatmap">
+<img data-src="../../project/plots/sir_parametric_heatmap.png"
+style="width:100.0%" alt="Тепловая карта зависимости peak I от β и γ" />
+<figcaption aria-hidden="true">Тепловая карта зависимости peak I от β и
+γ</figcaption>
+</figure>
+<h4 id="зависимость-пика-i-от-β">Зависимость пика I от β</h4>
+<figure id="fig:beta_dep">
+<img data-src="../../project/plots/sir_parametric_beta_dependence.png"
+style="width:100.0%" alt="Зависимость peak I от β для разных γ" />
+<figcaption aria-hidden="true">Зависимость peak I от β для разных
+γ</figcaption>
+</figure>
+</section>
+<section id="полученные-результаты-5" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="параметрическое-исследование-1">4.5. Параметрическое
+исследование</h3>
+<h4 id="зависимость-пика-i-от-γ">Зависимость пика I от γ</h4>
+<figure id="fig:gamma_dep">
+<img data-src="../../project/plots/sir_parametric_gamma_dependence.png"
+style="width:100.0%" alt="Зависимость peak I от γ для разных β" />
+<figcaption aria-hidden="true">Зависимость peak I от γ для разных
+β</figcaption>
+</figure>
+<h4 id="сравнение-детерм.-и-стохаст.">Сравнение детерм. и стохаст.</h4>
+<figure id="fig:method_comp">
+<img data-src="../../project/plots/sir_parametric_comparison.png"
+style="width:100.0%" alt="Сравнение методов" />
+<figcaption aria-hidden="true">Сравнение методов</figcaption>
+</figure>
+</section>
+<section id="полученные-результаты-6" class="slide level1">
+<h1>4. Полученные результаты</h1>
+<h3 id="анимация-динамики">4.6. Анимация динамики</h3>
+<figure id="fig:animation">
+<img data-src="../../project/plots/sir_animation.gif"
+style="width:100.0%" alt="Анимация динамики SIR" />
+<figcaption aria-hidden="true">Анимация динамики SIR</figcaption>
+</figure>
+<p>Анимация наглядно показывает: - Рост числа инфицированных в начале
+эпидемии - Пик заболеваемости - Последующее снижение I и рост R</p>
+</section>
+<section id="выводы" class="slide level1">
+<h1>5. Выводы</h1>
+<p>В ходе выполнения лабораторной работы:</p>
+<ul>
+<li><p>Реализована модель SIR на сетях Петри.</p></li>
+<li><p>Проведено детерминированное (решение ОДУ) и стохастическое
+(алгоритм Гиллеспи) моделирование.</p></li>
+<li><p>Выполнено сканирование параметра β для анализа порогового
+явления.</p></li>
+<li><p>Создана анимация динамики эпидемии.</p></li>
+</ul>
+</section>
+<section id="выводы-1" class="slide level1">
+<h1>5. Выводы</h1>
+<ul>
+<li><p>Проведено параметрическое исследование влияния β и γ на
+динамику.</p></li>
+<li><p>Освоено литературное программирование с использованием
+Literate.jl.</p></li>
+<li><p>Сгенерированы производные форматы: чистый код, Jupyter notebooks,
+Quarto-документы.</p></li>
+<li><p>Подготовлен отчёт в форматах PDF и DOCX.</p></li>
+<li><p>Результаты отправлены на GitVerse.</p></li>
+</ul>
+<p>Работа позволила на практике освоить аппарат сетей Петри для
+моделирования эпидемиологических процессов и закрепить навыки работы с
+языком Julia</p>
+</section>
